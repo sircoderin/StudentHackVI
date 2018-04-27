@@ -1,0 +1,2 @@
+# StudentHackVI
+StudentHack VI Repository

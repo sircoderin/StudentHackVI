@@ -61,8 +61,7 @@ def search_track(param):
 def show_tracks(tracks):
     for i, item in enumerate(tracks['items']):
         track = item['track']
-        print "   %d %32.32s %s %s" % (i, track['artists'][0]['name'],
-            track['name'], track['id'])
+        print ("%d %s %s %s" % (i, track['artists'][0]['name'], track['name'], track['id']))
 
 def read_playlist(id):
     username = get_user()
@@ -80,7 +79,10 @@ def read_playlist(id):
             tracks = sp.next(tracks)
             show_tracks(tracks)
 
-
+def play_track(id):
+    id = "spotify:track:" + id
+    sp = spotipy.Spotify(get_token())
+    sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
 
 # Main method
 if __name__ == "__main__":
@@ -88,3 +90,4 @@ if __name__ == "__main__":
     #for item in output:
         #print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
     read_playlist("5OyaappkOODQPVWGZesvUr")
+    play_track("3yZQk5PC52CCmT4ZaTIKvv")

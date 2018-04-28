@@ -52,7 +52,7 @@ def search_track(param):
     token = util.prompt_for_user_token(username, scope, client_id=credentials.spotify['client_id'] ,client_secret=credentials.spotify['client_secret'],redirect_uri='http://localhost:8181/')
 
     sp = spotipy.Spotify(auth=token)
-    results =  sp.search("mockingbird", limit=10, offset=0, type='track', market=None)
+    results =  sp.search(param, limit=10, offset=0, type='track', market=None)
 
     json_data = json.dumps(results, indent=2)
 

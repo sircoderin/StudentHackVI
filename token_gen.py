@@ -26,7 +26,6 @@ token = util.prompt_for_user_token('',scope,client_id=CODRIN_CLIENT_ID,client_se
 
 
 
-
 out_file = open("token.txt","w")
 out_file.write(token)
 print("Token outputed to file token.txt")

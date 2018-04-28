@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+	<form method=post>
+		<dl>
+			{{ form.search }}
+		</dl>
+		<input type=submit value=Search>
+	</form>
+{% endblock %}

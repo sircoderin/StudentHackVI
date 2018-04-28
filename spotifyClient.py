@@ -32,6 +32,8 @@ def search_track(param):
     json_data = json.dumps(results, indent=2)
 
     response = json_data.replace("'", '"')
+    response = json_data.replace("\\", "")
+
     response = json.loads(response)
     output = []
     for item in response['tracks']['items']:
@@ -45,6 +47,6 @@ def search_track(param):
 
 # Main method
 if __name__ == "__main__":
-    output = search_track("Lose Yourself")
+    output = search_track("martin garrix")
     for item in output:
         print ("%s - %s" % (item.track_name, item.track_id))

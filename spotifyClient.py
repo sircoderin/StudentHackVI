@@ -6,6 +6,7 @@ import requests
 import json
 from ast import literal_eval
 import spotipy_utils
+from login import *
 
 class Track(object):
 	# track_name = ""
@@ -80,11 +81,13 @@ def read_playlist(id):
 			tracks = sp.next(tracks)
 			show_tracks(tracks)
 
-
+def play_track(id):
+    id = "spotify:track:" + id
+    sp = spotipy.Spotify(get_token())
+    sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
 
 # Main method
 if __name__ == "__main__":
-
 	sp = spotipy.Spotify(spotipy_utils.get_token())
 	sp.start_playback()
 

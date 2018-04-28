@@ -8,6 +8,7 @@ from flask import Flask
 from flask import render_template
 from flask import request, redirect, flash
 from forms import MusicSearchForm
+from spotifyClient import *
 
 app = Flask(__name__)
 
@@ -37,10 +38,10 @@ def search_results(search):
 	if search_string == '':
 		return redirect('/search')
 
-	# todo spotify search and save the results in the results var
-	# results = spotifySearch(search_string)
+	
+	results = search_track(search_string)
 
-	print(type(search))
+	# print(results)
 
 	if not results:
 		return render_template('results.html')

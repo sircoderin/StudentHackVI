@@ -4,26 +4,36 @@ import credentials
 import spotify_connect
 import json
 
-from flask import Flask
-from flask import render_template
-from flask import request, redirect, flash
-from forms import MusicSearchForm
+from flask import Flask, flash, redirect, render_template, request, session
+import forms
 from spotifyClient import *
 
 app = Flask(__name__)
+app.secret_key = credentials.secret_key
+
 
 @app.route('/')
 def home():
     return redirect("/login")
 
-@app.route('/login')
+
+# Prompts user for a name
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+	if request.method == "POST":
+		name = forms.NameForm(request.form)
+		if name != "":
+			session['name'] = name
+			return redirect("/home")
+		else:
+			return render_template("login.html", error="Name cannot be empty!")
+
+	return render_template('login.html')
 
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-	search = MusicSearchForm(request.form)
+	search = forms.MusicSearchForm(request.form)
 	if request.method == 'POST':
 		return search_results(search)
 
@@ -43,6 +53,6 @@ def search_results(search):
 	if not results:
 		return render_template('results.html')
 	else:
-		#display results
+		# display results
 		return render_template('results.html', results=results)
 	

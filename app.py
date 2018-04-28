@@ -34,7 +34,6 @@ def search_results(search):
 	results = []
 	search_string = search.data['search']
 
-<<<<<<< HEAD
 	if search_string == '':
 		return redirect('/search')
 

@@ -14,8 +14,9 @@ spotify_playlist_id = '2NA4hjobhOjHhdHcDcpL7Z'
 
 @app.route('/')
 def home():
-	if not session['name']:
-		return redirect("/login")
+	if not session:
+		if not session['name']:
+			return redirect("/login")
 
 	return render_template("index.html", name=session['name'])
 
@@ -53,7 +54,7 @@ def results():
 		# print(request.form.get('add'))
 		track_id = request.form.get('add')
 		if track_id:
-			add_to_playlist(track_id, spotify_playlist_id)
+			spotipy_utils.add_to_playlist(track_id, spotify_playlist_id)
 
 		return redirect('search')
 

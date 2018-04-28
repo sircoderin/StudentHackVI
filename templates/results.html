@@ -1,7 +1,9 @@
-<!doctype html>
-<title>Search Results</title>
-{% if results %}
+{% extends "layout.html" %}
+{% block title %}Results{% endblock %}
+{% block body %}
+  {% if results %}
   <h1>{{ results }}</h1>
-{% else %}
+  {% else %}
   <h1>No results!</h1>
-{% endif %}
+  {% endif %}
+{% endblock %}

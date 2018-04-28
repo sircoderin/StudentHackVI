@@ -2,24 +2,38 @@ import spotipy
 import sys
 import spotipy.util as util
 
-username = '2cxjh5pqgk1ywrllnyl5sulk5'
 scope = 'user-library-read'
 
-util.prompt_for_user_token(username,scope,client_id='4616f84bd6c344d49c4d49712de27d1d',client_secret='78fd807f7f06423b9d51f1e1fb4b8df3',redirect_uri='http://localhost:8181/')
-
-if len(sys.argv) > 1:
-    username = sys.argv[1]
-else:
-    print "Usage: %s username" % (sys.argv[0],)
-    sys.exit()
-
-token = util.prompt_for_user_token(username, scope)
-
-if token:
-    sp = spotipy.Spotify(auth=token)
-    results = sp.current_user_saved_tracks()
-    for item in results['items']:
+def show_tracks(tracks):
+    for i, item in enumerate(tracks['items']):
         track = item['track']
-        print track['name'] + ' - ' + track['artists'][0]['name']
-else:
-    print "Can't get token for", username
+        print "   %d %32.32s %s" % (i, track['artists'][0]['name'],
+            track['name'])
+
+if __name__ == '__main__':
+    if len(sys.argv) > 0:
+        username = sys.argv[1]
+    else:
+        print "Whoops, need your username!"
+        print "usage: python user_playlists.py [username]"
+        sys.exit()
+
+    token = util.prompt_for_user_token(username, scope,client_id='4616f84bd6c344d49c4d49712de27d1d',client_secret='78fd807f7f06423b9d51f1e1fb4b8df3',redirect_uri='http://localhost:8181/')
+
+    if token:
+        sp = spotipy.Spotify(auth=token)
+        playlists = sp.user_playlists(username)
+        for playlist in playlists['items']:
+            if playlist['owner']['id'] == username:
+                print
+                print playlist['name']
+                print '  total tracks', playlist['tracks']['total']
+                results = sp.user_playlist(username, playlist['id'],
+                    fields="tracks,next")
+                tracks = results['tracks']
+                show_tracks(tracks)
+                while tracks['next']:
+                    tracks = sp.next(tracks)
+                    show_tracks(tracks)
+    else:
+        print "Can't get token for", username

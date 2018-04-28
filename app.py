@@ -3,6 +3,7 @@
 import credentials
 import spotify_connect
 import json
+import spotipy_utils
 
 from flask import Flask, flash, redirect, render_template, request, session
 import forms
@@ -11,6 +12,8 @@ from spotifyClient import *
 app = Flask(__name__)
 app.secret_key = credentials.secret_key
 
+global_results = []
+spotify_playlist_id = '2NA4hjobhOjHhdHcDcpL7Z'
 
 @app.route('/')
 def home():
@@ -40,7 +43,20 @@ def search():
 	return render_template('search.html', form=search)
 
 
+@app.route('/results',  methods=['GET', 'POST'])
+def results():
+	if request.method == 'POST':
+		# print(request.form.get('add'))
+		track_id = request.form.get('add')
+		if track_id:
+			add_to_playlist(track_id, spotify_playlist_id)
+
+		return redirect('search')
+
+	return render_template('results.html', results=global_results)
+
 def search_results(search):
+	global global_results
 
 	results = []
 	search_string = search.data['search']
@@ -49,10 +65,11 @@ def search_results(search):
 		return redirect('/search')
 
 	results = search_track(search_string)
+	global_results = results
 
 	if not results:
 		return render_template('results.html')
 	else:
 		# display results
-		return render_template('results.html', results=results)
+		return redirect('results')
 	

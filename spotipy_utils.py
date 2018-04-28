@@ -32,9 +32,9 @@ def remove(track,playlist_id):
 if __name__== '__main__':
     #mock_id = create_playlist('Dummy')
     #dummy tracks
-    track_uri = 'spotify:track:58dvtfKWOPGTeZtLuOdydV'
-    #add_to_playlist(track_uri,mock_id)
-    mock_id = '1ouOPA7zXC3Rh0AAYOVErV'
+    track_uri = '5CMjjywI0eZMixPeqNd75R'
+    mock_id = '2NA4hjobhOjHhdHcDcpL7Z'
+    add_to_playlist(track_uri,mock_id)
     #remove(track_uri,mock_id)
 
 

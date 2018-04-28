@@ -5,10 +5,11 @@ import spotify_connect
 import json
 
 from flask import Flask, flash, redirect, render_template, request, session
-from forms import *
+import forms
+from spotifyClient import *
 
 app = Flask(__name__)
-app.secret_key = 'ghghghtuy567iuyuyhnuybgt87frsw3'
+app.secret_key = credentials.secret_key
 
 
 @app.route('/')
@@ -16,10 +17,11 @@ def home():
     return redirect("/login")
 
 
+# Prompts user for a name
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	if request.method == "POST":
-		name = NameForm(request.form)
+		name = forms.NameForm(request.form)
 		if name != "":
 			session['name'] = name
 			return redirect("/home")
@@ -30,8 +32,8 @@ def login():
 
 
 @app.route('/search', methods=['GET', 'POST'])
-def index():
-	search = MusicSearchForm(request.form)
+def search():
+	search = forms.MusicSearchForm(request.form)
 	if request.method == 'POST':
 		return search_results(search)
 
@@ -44,10 +46,13 @@ def search_results(search):
 	results = []
 	search_string = search.data['search']
 
-	# todo spotify search and save the results in the results var
-	# results = spotifySearch(search_string)
+	if search_string == '':
+		return redirect('/search')
 
-	print(type(search))
+	
+	results = search_track(search_string)
+
+	# print(results)
 
 	if not results:
 		return render_template('results.html')

@@ -29,8 +29,3 @@ def add_to_playlist():
 		print("Can't get token for %s whatever" % username)
 
 	#print sp.search("mockingbird", limit=10, offset=0, type='track', market=None)
-
-
-# Main method
-if __name__ == "__main__":
-	add_to_playlist()

@@ -5,7 +5,7 @@ import credentials
 import requests
 import json
 from ast import literal_eval
-from spotipy_utils import *
+import spotipy_utils
 
 class Track(object):
     # track_name = ""
@@ -14,6 +14,7 @@ class Track(object):
     # track_id = ""
     # image_url = ""
 
+
     # The class "constructor" - It's actually an initializer
     def __init__(self, track_name, artist_name, album_name, track_id, image_url):
         self.track_name = track_name
@@ -21,6 +22,17 @@ class Track(object):
         self.album_name = album_name
         self.track_id = track_id
         self.image_url = image_url
+        self.vote_count = 0
+
+    def up_vote(self):
+        self.vote_count+=1
+
+    def down_vote(self):
+        self.vote_count-=1
+
+    def get_votes(self):
+        return self.vote_count
+
 
 def make_item(track_name, artist_name, album_name, track_id, image_url):
     item = Track(track_name, artist_name, album_name, track_id, image_url)
@@ -28,7 +40,7 @@ def make_item(track_name, artist_name, album_name, track_id, image_url):
 
 
 def search_track(param):
-    sp = spotipy.Spotify(get_token())
+    sp = spotipy.Spotify(spotipy_utils.get_token())
     results =  sp.search(param, limit=10, offset=0, type='track', market=None)
 
     json_data = json.dumps(results, indent=2)
@@ -46,9 +58,33 @@ def search_track(param):
 
     return output
 
+def show_tracks(tracks):
+    for i, item in enumerate(tracks['items']):
+        track = item['track']
+        print("   %d %32.32s %s %s" % (i, track['artists'][0]['name'],
+            track['name'], track['id']))
+
+def read_playlist(id):
+    username = get_user()
+    sp = spotipy.Spotify(get_token())
+    playlist = sp.user_playlist(username, playlist_id = id)
+    
+    if playlist['owner']['id'] == username:
+        print()
+        print(playlist['name'])
+        print('  total tracks', playlist['tracks']['total'])
+        results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
+        tracks = results['tracks']
+        show_tracks(tracks)
+        while tracks['next']:
+            tracks = sp.next(tracks)
+            show_tracks(tracks)
+
+
 
 # Main method
 if __name__ == "__main__":
-    output = search_track("martin garrix")
-    for item in output:
-        print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
+    #output = search_track("martin garrix")
+    #for item in output:
+        #print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
+    read_playlist("5OyaappkOODQPVWGZesvUr")

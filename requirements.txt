@@ -16,3 +16,4 @@ six==1.11.0
 urllib3==1.22
 Werkzeug==0.14.1
 wrapt==1.10.11
+Flask-WTF==0.14.2

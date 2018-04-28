@@ -8,12 +8,6 @@ from ast import literal_eval
 from spotipy_utils import *
 
 class Item(object):
-    track_name = ""
-    artist_name = ""
-    album_name = ""
-    track_id = ""
-    image_url = ""
-
     # The class "constructor" - It's actually an initializer
     def __init__(self, track_name, artist_name, album_name, track_id, image_url):
         self.track_name = track_name
@@ -46,9 +40,33 @@ def search_track(param):
 
     return output
 
+def show_tracks(tracks):
+    for i, item in enumerate(tracks['items']):
+        track = item['track']
+        print "   %d %32.32s %s %s" % (i, track['artists'][0]['name'],
+            track['name'], track['id'])
+
+def read_playlist(id):
+    username = get_user()
+    sp = spotipy.Spotify(get_token())
+    playlist = sp.user_playlist(username, playlist_id = id)
+    
+    if playlist['owner']['id'] == username:
+        print()
+        print(playlist['name'])
+        print('  total tracks', playlist['tracks']['total'])
+        results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
+        tracks = results['tracks']
+        show_tracks(tracks)
+        while tracks['next']:
+            tracks = sp.next(tracks)
+            show_tracks(tracks)
+
+
 
 # Main method
 if __name__ == "__main__":
-    output = search_track("martin garrix")
-    for item in output:
-        print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
+    #output = search_track("martin garrix")
+    #for item in output:
+        #print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
+    read_playlist("5OyaappkOODQPVWGZesvUr")

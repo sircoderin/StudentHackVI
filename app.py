@@ -54,8 +54,6 @@ def search_results(search_string):
 
 	results = search_track(search_string)
 
-	# print(results)
-
 	if not results:
 		return render_template('results.html')
 	else:

@@ -5,7 +5,7 @@ import credentials
 import requests
 import json
 from ast import literal_eval
-from spotipy_utils import *
+import spotipy_utils
 
 class Item(object):
     track_name = ""
@@ -26,7 +26,7 @@ def make_item(track_name, album_name, track_id, image_url):
 
 
 def search_track(param):
-    sp = spotipy.Spotify(get_token())
+    sp = spotipy.Spotify(spotipy_utils.get_token())
     results =  sp.search(param, limit=10, offset=0, type='track', market=None)
 
     json_data = json.dumps(results, indent=2)

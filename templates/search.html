@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Search{% endblock %}
+{% block body %}
+	<form method=post>
+		<dl>
+			{{ form.search }}
+		</dl>
+		<input type=submit value=Search>
+	</form>
+	
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class=flashes>
+				{% for message in messages %}
+			<li>{{ message }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+{% endblock %}

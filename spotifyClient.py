@@ -47,6 +47,11 @@ def search_track(param):
 
 # Main method
 if __name__ == "__main__":
+<<<<<<< HEAD
     output = search_track("martin garrix")
+=======
+    # add_to_playlist()
+    output = search_track("Lose Yourself")
+>>>>>>> 2b5d1c28c0f387ba2e16cedbd54135570a5e2740
     for item in output:
         print ("%s - %s" % (item.track_name, item.track_id))

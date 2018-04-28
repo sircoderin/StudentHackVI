@@ -20,7 +20,7 @@ def hello(name=None):
 
 
 @app.route('/search', methods=['GET', 'POST'])
-def index():
+def search():
 	search = MusicSearchForm(request.form)
 	if request.method == 'POST':
 		return search_results(search)
@@ -32,6 +32,9 @@ def search_results(search):
 
 	results = []
 	search_string = search.data['search']
+
+	if search_string == '':
+		return redirect('/search')
 
 	# do spotify search and save the results in the results var
 	# results = spotifySearch(search_string)

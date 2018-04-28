@@ -71,7 +71,6 @@ def read_playlist(id):
 	playlist = sp.user_playlist(username, playlist_id = id)
 	
 	if playlist['owner']['id'] == username:
-		print()
 		print(playlist['name'])
 		print('  total tracks', playlist['tracks']['total'])
 		results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
@@ -92,5 +91,5 @@ if __name__ == "__main__":
     #for item in output:
         #print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
     read_playlist("5OyaappkOODQPVWGZesvUr")
-    play_track("3yZQk5PC52CCmT4ZaTIKvv")
+    #play_track("3yZQk5PC52CCmT4ZaTIKvv")
 

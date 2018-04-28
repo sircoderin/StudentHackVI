@@ -29,7 +29,7 @@ def search():
 
 	return render_template('search.html', form=search)
 
-@app.route('/results')
+
 def search_results(search):
 
 	results = []
@@ -38,10 +38,7 @@ def search_results(search):
 	if search_string == '':
 		return redirect('/search')
 
-	
 	results = search_track(search_string)
-
-	# print(results)
 
 	if not results:
 		return render_template('results.html')

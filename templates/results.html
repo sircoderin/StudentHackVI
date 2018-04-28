@@ -2,8 +2,19 @@
 {% block title %}Results{% endblock %}
 {% block body %}
   {% if results %}
-  <h1>{{ results }}</h1>
+  
+		<table>	  	
+	  	{% for i in results %}
+	  		<tr>
+	  			<td>{{ i.track_id }}</td>
+	  			<td>{{ i.track_name }}</td>
+	  			<td>{{ i.album_name }}</td>
+	  			<td><img src="{{ i.image_url }}"></td>
+	  		</tr>
+	  	{% endfor %}
+	  </table>
+
   {% else %}
-  <h1>No results!</h1>
+  	<h1>No results!</h1>
   {% endif %}
 {% endblock %}

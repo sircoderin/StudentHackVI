@@ -87,9 +87,11 @@ def play_track(id):
 
 # Main method
 if __name__ == "__main__":
-    #output = search_track("martin garrix")
-    #for item in output:
-        #print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
-    read_playlist("5OyaappkOODQPVWGZesvUr")
-    #play_track("3yZQk5PC52CCmT4ZaTIKvv")
+	sp = spotipy.Spotify(spotipy_utils.get_token())
+	sp.start_playback()
 
+
+	#output = search_track("martin garrix")
+	#for item in output:
+		#print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
+	# read_playlist("5OyaappkOODQPVWGZesvUr")

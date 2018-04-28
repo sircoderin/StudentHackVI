@@ -5,6 +5,7 @@ import credentials
 import requests
 import json
 from ast import literal_eval
+from spotipy_utils import *
 
 class Item(object):
     track_name = ""
@@ -12,7 +13,7 @@ class Item(object):
     track_id = ""
     image_url = ""
 
-    # The class "constructor" - It's actually an initializer 
+    # The class "constructor" - It's actually an initializer
     def __init__(self, track_name, album_name, track_id, image_url):
         self.track_name = track_name
         self.album_name = album_name
@@ -23,29 +24,9 @@ def make_item(track_name, album_name, track_id, image_url):
     item = Item(track_name, album_name, track_id, image_url)
     return item
 
-def add_to_playlist():
-    scope = 'playlist-modify-public'
-    username = credentials.spotify['user']
-    playlist_id = '5OyaappkOODQPVWGZesvUr'
-    track_ids = ['3px2rAPu74ltbkf9eZsZ8h']
-
-    token = util.prompt_for_user_token(username, scope, client_id=credentials.spotify['client_id'] ,client_secret=credentials.spotify['client_secret'],redirect_uri='http://localhost:8181/')
-    if token:
-        sp = spotipy.Spotify(auth=token)
-        sp.trace = False
-
-        results = sp.user_playlist_add_tracks(username, playlist_id, track_ids)
-        print(results)
-    else:
-        print("Can't get token for %s whatever" % username)
 
 def search_track(param):
-    scope = 'playlist-modify-public'
-    username = credentials.spotify['user']
-
-    token = util.prompt_for_user_token(username, scope, client_id=credentials.spotify['client_id'] ,client_secret=credentials.spotify['client_secret'],redirect_uri='http://localhost:8181/')
-
-    sp = spotipy.Spotify(auth=token)
+    sp = spotipy.Spotify(get_token())
     results =  sp.search(param, limit=10, offset=0, type='track', market=None)
 
     json_data = json.dumps(results, indent=2)

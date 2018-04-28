@@ -6,12 +6,6 @@ import requests
 import json
 from ast import literal_eval
 
-scope = 'user-library-read'
-def show_tracks(tracks):
-    for i, item in enumerate(tracks['items']):
-        track = item['track']
-        print ("   %d %32.32s %s" % (i, track['artists'][0]['name'],track['name']))
-
 class Item(object):
     track_name = ""
     album_name = ""
@@ -70,7 +64,7 @@ def search_track(param):
 
 # Main method
 if __name__ == "__main__":
-    #add_to_playlist()
-    output = search_track("mockingbird")
+    add_to_playlist()
+    output = search_track("Lose Yourself")
     for item in output:
-        print item.track_name
+        print ("%s - %s" % (item.track_name, item.track_id))

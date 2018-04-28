@@ -7,7 +7,13 @@ import json
 from ast import literal_eval
 from spotipy_utils import *
 
-class Item(object):
+class Track(object):
+    # track_name = ""
+    # artist_name = ""
+    # album_name = ""
+    # track_id = ""
+    # image_url = ""
+
     # The class "constructor" - It's actually an initializer
     def __init__(self, track_name, artist_name, album_name, track_id, image_url):
         self.track_name = track_name
@@ -17,7 +23,7 @@ class Item(object):
         self.image_url = image_url
 
 def make_item(track_name, artist_name, album_name, track_id, image_url):
-    item = Item(track_name, artist_name, album_name, track_id, image_url)
+    item = Track(track_name, artist_name, album_name, track_id, image_url)
     return item
 
 

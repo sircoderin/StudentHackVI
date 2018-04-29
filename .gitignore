@@ -3,4 +3,5 @@
 env/
 *.pyc
 token.txt
+credentials.py
 

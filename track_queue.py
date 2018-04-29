@@ -6,16 +6,16 @@ class Track_Queue:
 
     #create a track queue from a spotify playlist with id playlist_id
     def __init__(self,playlist_id):
-        global queue
-        playlist_id = playlist_id
+        self.playlist_id = playlist_id
         tracklist = get_playlist(playlist_id)['tracks']
-
+        queue = []
 
         for i, item in enumerate(tracklist['items']):
             track = item['track']
             #print("   %d %32.32s %s %s" % (i, track['artists'][0]['name'],track['name'], track['id']))
-            self.queue.append(Track(track['name'], track['artists'][0]['name'], track['album']['name'], track['id'], track['album']['images'][2]['url']))
+            queue.append(Track(track['name'], track['artists'][0]['name'], track['album']['name'], track['id'], track['album']['images'][2]['url']))
 
+        self.queue = queue
         self.sort()
 
 
@@ -39,6 +39,7 @@ class Track_Queue:
 
 
     def export_to_spotify(self):
+        queue = self.queue
         #clear playlist
         remove_all_from_playlist(self.playlist_id)
         #recreate the playlist
@@ -48,6 +49,7 @@ class Track_Queue:
 
 
     def get_track_by_id(self, id):
+        queue = self.queue
         for track in queue:
             if track.getId()==id:
                 return track
@@ -57,17 +59,21 @@ class Track_Queue:
         self.queue.append(track)
         self.sort()
         #update spotify track
-        self.export_to_spotify(self.id)
+        self.export_to_spotify()
 
     #delete all occurences of song with id track_id
     #returns the removed track object
     def pop(self,track_id):
-        track = self.get_track_by_id(track_id)
-        self.queue.remove(track)
+        pop_track = ''
+        for track in self.queue:
+            if track.getId()==track_id:
+                pop_track = track
+                self.queue.remove(track)
+                break
+            print track.getId()
         #update spotify track
-        self.export_to_spotify(self.id)
-        return track
+        self.export_to_spotify()
+        return pop_track
 
-traQ = Track_Queue('1ouOPA7zXC3Rh0AAYOVErV')
-for track in traQ.queue:
-    print(track.track_name)
+    def as_list(self):
+        return self.queue

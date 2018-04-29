@@ -9,9 +9,8 @@ def get_token():
     token = f.read()
     return token
 
-def get_user():
-    sp = spotipy.Spotify(auth= get_token())
-    sp.trace = False
-    user = sp.current_user()
-    user = user['uri'].split(':')
-    return user[2]
+def get_playback_token(rw):
+    token_file = "token.playback." + rw + ".txt"
+    f=open(token_file)
+    token = f.read()
+    return token

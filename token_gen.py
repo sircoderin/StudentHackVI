@@ -29,7 +29,13 @@ CODRIN_CLIENT_ID = '4616f84bd6c344d49c4d49712de27d1d'
 CODRIN_CLIENT_SECRET = '78fd807f7f06423b9d51f1e1fb4b8df3'
 
 token = util.prompt_for_user_token('',scope,client_id=CODRIN_CLIENT_ID,client_secret=CODRIN_CLIENT_SECRET,redirect_uri='http://localhost:8181/')
-
-out_file = open("token.txt","w")
+#playback token
+if scope == 'user-modify-playback-state':
+    tok_file = 'token.playback.write.txt'
+elif scope == 'user-read-playback-state':
+    tok_file = 'token.playback.read.txt'
+else:#default token
+    tok_file = 'token.txt'
+out_file= open(tok_file,"w")
 out_file.write(token)
-print("Token outputed to file token.txt")
+print("Token outputed to file " +  tok_file)

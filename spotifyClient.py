@@ -78,8 +78,8 @@ def read_playlist(id):
 		print('  total tracks', playlist['tracks']['total'])
 		results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
 		tracks = results['tracks']
-		input = show_tracks(tracks)
-		return input
+		output = show_tracks(tracks)
+		return output
 
 def play_track(id):
 	id = "spotify:track:" + id

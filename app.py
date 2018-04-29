@@ -10,8 +10,10 @@ app = Flask(__name__)
 app.secret_key = 'ghghghtuy567iuyuyhnuybgt87frsw3'
 
 global_results = []
-spotify_playlist_id = '2NA4hjobhOjHhdHcDcpL7Z'
+home_tracks = []
 
+spotify_playlist_id = credentials.spotify['playlist_id']
+playlist_id = credentials.spotify['playlist_id']
 
 @app.route('/')
 def red_to_index():
@@ -20,6 +22,9 @@ def red_to_index():
 
 @app.route('/index', methods=['GET', 'POST'])
 def home():
+
+	global home_tracks
+
 	if not session:
 		if not session['name']:
 			return redirect("/login")
@@ -29,12 +34,14 @@ def home():
 		like = request.form.get('like')
 		dislike = request.form.get('dislike')
 
-		# print(like)
-		# print()
-		# print(dislike)
+		add_track = request.form.get('search')
+
+		if add_track:
+			return redirect('/search')
 
 		if like:
 			# todo call like method for the track_id (like)
+
 			print("like")
 			print(like)
 
@@ -46,17 +53,18 @@ def home():
 
 		return redirect('/')
 
-	tracks = search_track("eminem")
+	home_tracks = read_playlist(playlist_id)
 
-	print(tracks)
-
-	return render_template("index.html", name=session['name'], tracks=tracks)
+	return render_template("index.html", name=session['name'], tracks=home_tracks)
 
 
 # Prompts user for a name
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	
+	if session['name']:
+		return redirect('/index')
+
 	name_form = forms.NameForm(request.form)
 	if request.method == "POST":
 		if name_form.data['name'] != "":
@@ -88,7 +96,7 @@ def results():
 		if track_id:
 			spotipy_utils.add_to_playlist(track_id, spotify_playlist_id)
 
-		return redirect('search')
+		return redirect('/index')
 
 	return render_template('results.html', results=global_results)
 
@@ -109,3 +117,6 @@ def search_results(search_string):
 	else:
 		# display results
 		return redirect('results')
+
+def getTracks():
+	return home_tracks

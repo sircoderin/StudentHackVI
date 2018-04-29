@@ -73,12 +73,15 @@ def remove_current(id):
 	#playlist-modify-public
 	spotipy_utils.remove(track_id, id)
 
+def reorder_track(start, before, id):
+	sp = spotipy.Spotify(get_token())
+	sp.user_playlist_reorder_tracks(user = get_user(), playlist_id = id, range_start = start, insert_before = before, range_length = 1)
 
 # Main method
 if __name__ == "__main__":
-	sp = spotipy.Spotify(get_token())
+	reorder_track(1, 0, "5OyaappkOODQPVWGZesvUr")
 	#play_track("5cbpoIu3YjoOwbBDGUEp3P")
-	remove_current("5OyaappkOODQPVWGZesvUr")
+	#remove_current("5OyaappkOODQPVWGZesvUr")
 
 	#input = read_playlist("5OyaappkOODQPVWGZesvUr")
 	#for each in input:

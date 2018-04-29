@@ -1,5 +1,6 @@
 from track import *
 from spotipy_utils import *
+from spotifyClient import *
 
 class Track_Queue:
     queue = []
@@ -55,25 +56,33 @@ class Track_Queue:
                 return track
 
     #add a track object
-    def push(self,track):
+    def push(self, track, old_start):
         self.queue.append(track)
         self.sort()
+        new_index = 0
+        for i in range (len(queue))
+            if queue[i].getId()==track_id:
+                new_index = i
+                break;
+        reorder_track(old_start, new_index, self.playlist_id)
         #update spotify track
-        self.export_to_spotify()
+        #self.export_to_spotify()
 
     #delete all occurences of song with id track_id
     #returns the removed track object
     def pop(self,track_id):
-        pop_track = ''
-        for track in self.queue:
-            if track.getId()==track_id:
+        pop_track = None
+        cuurent_ind = 0
+        queue = self.queue
+        for i in range (len(queue))
+            if queue[i].getId()==track_id:
                 pop_track = track
-                self.queue.remove(track)
-                break
+                self.queue.remove(track)   
+                return (i, pop_track)
+        return (0, None)
             # print track.getId()
         #update spotify track
-        self.export_to_spotify()
-        return pop_track
+        #self.export_to_spotify()
 
     def as_list(self):
         return self.queue

@@ -5,9 +5,10 @@ import credentials
 import requests
 import json
 from ast import literal_eval
-import login , spotipy_utils
+import login
 from login import *
 from track import *
+from spotipy_utils import *
 
 def search_track(param):
 	sp = spotipy.Spotify(spotipy_utils.get_token())
@@ -52,14 +53,14 @@ def read_playlist(id):
 
 def play_track(id):
 	id = "spotify:track:" + id
-	sp = spotipy.Spotify(get_token())
+	sp = spotipy.Spotify(get_playback_token('write'))
 	sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
-	remove_current("5cbpoIu3YjoOwbBDGUEp3P")
+	remove_current('1ouOPA7zXC3Rh0AAYOVErV')
 	#print(sp.devices())
 
-def remove_current(id):
+def remove_current(playlist_id):
 	#user-read-playback-state
-	sp = spotipy.Spotify(auth = "BQASHopJhsbUqcghoWNM4FQ7IdSOshP1fQRglvhDtoZ2CVBvQFtUYyED8K2052nHRO_8K-DBVckkHnV1OcdsNuhg2jmrjQ9rAMZaQKbYUpop6V0roktIrR0MAS27wJQqksCZKEl9wjbmHo7LbdhjddOIbCQbWQizAmb7m_lt4Q7eZenUb31EKEDs8LB428FTnuRxaQ	-_H1B2LGT54CecWFJ9gtB3SitnHAStWYIUTKSE3ptJNEvKx7LldG--egOl3ZWjS8LhMwYzdGoAGpOlka3Vl5C42lOPMgYsSt5R_GHuMLYHTJHQsMsUpg6A")
+	sp = spotipy.Spotify(auth = get_playback_token('read') )
 	results = sp.current_playback()
 	json_data = json.dumps(results, indent=2)
 
@@ -72,7 +73,7 @@ def remove_current(id):
 	track_id = response['item']['id']
 
 	#playlist-modify-public
-	spotipy_utils.remove(track_id, id)
+	remove_from_playlist(track_id, playlist_id)
 
 def reorder_track(start, before, id):
 	sp = spotipy.Spotify(get_token())
@@ -80,8 +81,7 @@ def reorder_track(start, before, id):
 
 # Main method
 if __name__ == "__main__":
-	play_track("6od5hFv9IT5JHc7NEF9HRv")
-
+	reorder_track(1, 0, "5OyaappkOODQPVWGZesvUr")
 	#play_track("5cbpoIu3YjoOwbBDGUEp3P")
 	#remove_current("5OyaappkOODQPVWGZesvUr")
 

@@ -1,0 +1,14 @@
+playlist-read-collaborative
+playlist-modify-private
+playlist-read-private
+playlist-modify-public
+user-read-email
+user-read-private
+user-read-birthdate
+user-read-recently-played
+user-top-read
+user-follow-read
+user-follow-modify
+streaming
+user-library-read
+user-library-modify

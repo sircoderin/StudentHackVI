@@ -71,7 +71,6 @@ def read_playlist(id):
 	playlist = sp.user_playlist(username, playlist_id = id)
 	
 	if playlist['owner']['id'] == username:
-		print()
 		print(playlist['name'])
 		print('  total tracks', playlist['tracks']['total'])
 		results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
@@ -90,6 +89,7 @@ def play_track(id):
 if __name__ == "__main__":
 	sp = spotipy.Spotify(spotipy_utils.get_token())
 	sp.start_playback()
+
 
 	#output = search_track("martin garrix")
 	#for item in output:

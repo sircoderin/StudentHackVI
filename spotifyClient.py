@@ -60,10 +60,13 @@ def search_track(param):
 	return output
 
 def show_tracks(tracks):
-	for i, item in enumerate(tracks['items']):
-		track = item['track']
-		print("   %d %32.32s %s %s" % (i, track['artists'][0]['name'],
-			track['name'], track['id']))
+		output = []
+		for i, item in enumerate(tracks['items']):
+				track = item['track']
+				print("   %d %32.32s %s %s" % (i, track['artists'][0]['name'],track['name'], track['id']))
+				newObj = make_item(track['name'], track['artists'][0]['name'], track['album']['name'], track['id'], track['album']['images'][2]['url'])
+				output.append(newObj)
+		return output
 
 def read_playlist(id):
 	username = get_user()
@@ -75,20 +78,38 @@ def read_playlist(id):
 		print('  total tracks', playlist['tracks']['total'])
 		results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
 		tracks = results['tracks']
-		show_tracks(tracks)
-		while tracks['next']:
-			tracks = sp.next(tracks)
-			show_tracks(tracks)
+		input = show_tracks(tracks)
+		return input
 
 def play_track(id):
-    id = "spotify:track:" + id
-    sp = spotipy.Spotify(get_token())
-    sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
+	id = "spotify:track:" + id
+	sp = spotipy.Spotify(get_token())
+	sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
+	#print(sp.devices())
+
+def remove_current(id):
+	sp = spotipy.Spotify(get_token())
+	results = sp.current_playback()
+	json_data = json.dumps(results, indent=2)
+
+	#print(json_data)
+	response = json_data.replace("'", '"')
+	response = json_data.replace("\\", "")
+
+	response = json.loads(response)
+	output = []
+	print(response['item']['href'])
+
 
 # Main method
 if __name__ == "__main__":
-	sp = spotipy.Spotify(spotipy_utils.get_token())
-	sp.start_playback()
+	sp = spotipy.Spotify(get_token())
+	#remove_current("5OyaappkOODQPVWGZesvUr")
+
+	input = read_playlist("5OyaappkOODQPVWGZesvUr")
+	for each in input:
+		print(each.track_name)
+	#play_track("4Tjg4jsELqr8cSgwDZ4twe")
 
 
 	#output = search_track("martin garrix")

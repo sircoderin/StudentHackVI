@@ -12,13 +12,45 @@ app.secret_key = 'ghghghtuy567iuyuyhnuybgt87frsw3'
 global_results = []
 spotify_playlist_id = '2NA4hjobhOjHhdHcDcpL7Z'
 
+
 @app.route('/')
+def red_to_index():
+	return redirect('/index')
+
+
+@app.route('/index', methods=['GET', 'POST'])
 def home():
 	if not session:
 		if not session['name']:
 			return redirect("/login")
 
-	return render_template("index.html", name=session['name'])
+	if request.method == 'POST':
+		
+		like = request.form.get('like')
+		dislike = request.form.get('dislike')
+
+		# print(like)
+		# print()
+		# print(dislike)
+
+		if like:
+			# todo call like method for the track_id (like)
+			print("like")
+			print(like)
+
+		
+		if dislike:
+			# todo call the dislike method for the track_id (dislike)
+			print("dislike")
+			print(dislike)
+
+		return redirect('/')
+
+	tracks = search_track("eminem")
+
+	print(tracks)
+
+	return render_template("index.html", name=session['name'], tracks=tracks)
 
 
 # Prompts user for a name

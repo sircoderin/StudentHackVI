@@ -47,8 +47,8 @@ def read_playlist(id):
 		print('  total tracks', playlist['tracks']['total'])
 		results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
 		tracks = results['tracks']
-		input = show_tracks(tracks)
-		return input
+		output = show_tracks(tracks)
+		return output
 
 def play_track(id):
 	id = "spotify:track:" + id
@@ -57,7 +57,8 @@ def play_track(id):
 	#print(sp.devices())
 
 def remove_current(id):
-	sp = spotipy.Spotify(get_token())
+	#user-read-playback-state
+	sp = spotipy.Spotify(auth = "BQAbQdTvNbnH9CRcw2W2S34hoP9N5vUxj0CMm_sQHSBMK5H7HvCwUBv7-_H1B2LGT54CecWFJ9gtB3SitnHAStWYIUTKSE3ptJNEvKx7LldG--egOl3ZWjS8LhMwYzdGoAGpOlka3Vl5C42lOPMgYsSt5R_GHuMLYHTJHQsMsUpg6A")
 	results = sp.current_playback()
 	json_data = json.dumps(results, indent=2)
 
@@ -67,21 +68,23 @@ def remove_current(id):
 
 	response = json.loads(response)
 	output = []
-	print(response['item']['href'])
+	track_id = response['item']['id']
+
+	#playlist-modify-public
+	spotipy_utils.remove(track_id, id)
 
 
 # Main method
 if __name__ == "__main__":
 	sp = spotipy.Spotify(get_token())
-	#remove_current("5OyaappkOODQPVWGZesvUr")
+	#play_track("5cbpoIu3YjoOwbBDGUEp3P")
+	remove_current("5OyaappkOODQPVWGZesvUr")
 
-	input = read_playlist("5OyaappkOODQPVWGZesvUr")
-	for each in input:
-		print(each.track_name)
-	#play_track("4Tjg4jsELqr8cSgwDZ4twe")
+	#input = read_playlist("5OyaappkOODQPVWGZesvUr")
+	#for each in input:
+	#print(each.track_name)
 
 
 	#output = search_track("martin garrix")
 	#for item in output:
 		#print ("%s by %s - %s" % (item.track_name, item.artist_name, item.track_id))
-	# read_playlist("5OyaappkOODQPVWGZesvUr")

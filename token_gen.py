@@ -14,7 +14,7 @@ def print_scopes():
     f = open("spotipy.scope")
     line = f.readline()
     while line!='':
-        print '\t' + line.strip()
+        print ('\t' + line.strip())
         line = f.readline()
 
 if(len(sys.argv)==2):

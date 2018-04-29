@@ -5,6 +5,9 @@ playlist-modify-public
 user-read-email
 user-read-private
 user-read-birthdate
+user-read-playback-state
+user-read-currently-playing
+user-modify-playback-state
 user-read-recently-played
 user-top-read
 user-follow-read

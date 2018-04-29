@@ -20,7 +20,7 @@ playlist_id = credentials.spotify['playlist_id']
 song_queue = Track_Queue(playlist_id)
 home_tracks = read_playlist(playlist_id)
 
-play_track(song_queue.get_most_wanted().getId(), song_queue)
+# play_track(song_queue.get_most_wanted().getId(), song_queue)
 
 @app.route('/')
 def red_to_index():
@@ -78,6 +78,9 @@ def home():
 
 	home_tracks = read_playlist(playlist_id)
 
+	for track in song_queue.queue:
+		print(track.track_name + "   " + str(track.get_votes()))
+
 	return render_template("index.html", name=session['name'], tracks=home_tracks)
 
 
@@ -123,11 +126,13 @@ def results():
 		if track_id:
 			spotipy_utils.add_to_playlist(track_id, spotify_playlist_id)
 			home_tracks = read_playlist(playlist_id)
+			i = 0
 			for track in home_tracks:
 				if track.track_id == track_id:
-					song_queue.push(track, -1)
+					song_queue.push(track, i)
 					print(type(track))
 					print('+++++++++++++++++++++++++++++++++++++++++++++')
+				i=i+1
 
 		return redirect('/index')
 

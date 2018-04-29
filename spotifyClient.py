@@ -51,11 +51,12 @@ def read_playlist(id):
 		output = show_tracks(tracks)
 		return output
 
-def play_track(id):
-	id = "spotify:track:" + id
+def play_track(id, song_queue):
+	full_id = "spotify:track:" + id
 	sp = spotipy.Spotify(get_playback_token('write'))
-	sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
-	remove_current('1ouOPA7zXC3Rh0AAYOVErV')
+	sp.start_playback(device_id = None, context_uri = None, uris = [full_id], offset = None)
+	remove_current(song_queue.get_playlist_id())
+	song_queue.pop(id)
 	#print(sp.devices())
 
 def remove_current(playlist_id):

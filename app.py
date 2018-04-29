@@ -20,6 +20,8 @@ playlist_id = credentials.spotify['playlist_id']
 song_queue = Track_Queue(playlist_id)
 home_tracks = read_playlist(playlist_id)
 
+play_track(song_queue.get_most_wanted().getId(), song_queue)
+
 @app.route('/')
 def red_to_index():
 	return redirect('/index')
@@ -57,7 +59,7 @@ def home():
 
 			print("like")
 			print(like)
-			home_tracks = read_playlist(playlist_id)
+			# home_tracks = read_playlist(playlist_id)
 			# song_queue.export_to_spotify()
 		
 		if dislike:
@@ -69,12 +71,12 @@ def home():
 
 			print("dislike")
 			print(dislike)
-			home_tracks = read_playlist(playlist_id)
+			# home_tracks = read_playlist(playlist_id)
 			# song_queue.export_to_spotify()
 
 		return redirect('/')
 
-	# home_tracks = read_playlist(playlist_id)
+	home_tracks = read_playlist(playlist_id)
 
 	return render_template("index.html", name=session['name'], tracks=home_tracks)
 

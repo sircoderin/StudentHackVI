@@ -9,6 +9,7 @@ import login
 from login import *
 from track import *
 from spotipy_utils import *
+import time
 
 def search_track(param):
 	sp = spotipy.Spotify(get_token())
@@ -18,9 +19,9 @@ def search_track(param):
 
 	response = json_data.replace("'", '"')
 	response = json_data.replace("\\", "")
-
-	response = json.loads(response)
 	output = []
+	response = json.loads(response)
+
 	for item in response['tracks']['items']:
 		newObj = Track(item['name'], item['album']['artists'][0]['name'], item['album']['name'], item['id'], item['album']['images'][2]['url'])
 		output.append(newObj)
@@ -54,10 +55,18 @@ def read_playlist(id):
 def play_track(id, song_queue):
 	full_id = "spotify:track:" + id
 	full_context = "spotify:user:" + get_user() + ":playlist:" + song_queue.get_playlist_id()
+
 	sp = spotipy.Spotify(get_playback_token('write'))
-	sp.start_playback(device_id = None, context_uri = full_context, uris = None, offset = None)
-	# remove_current(song_queue.get_playlist_id())
-	song_queue.pop(id)
+	token = sp.audio_features(id)
+	json_data = json.dumps(token, indent=2)
+
+	response = json_data.replace("'", '"')
+	response = json_data.replace("\\", "")
+
+	response = json.loads(response)
+
+	sp.start_playback(device_id = None, context_uri = None, uris = [full_id], offset = None)
+	return time.time() + float(response[0]['duration_ms']) / 1000
 	#print(sp.devices())
 
 def remove_current(playlist_id):
@@ -78,8 +87,10 @@ def get_current():
 	response = json_data.replace("\\", "")
 
 	response = json.loads(response)
-	output = []
-	track_id = response['item']['id']
+	if response is not None:
+		track_id = response['item']['id']
+	else:
+		track_id = 0
 
 	return track_id
 
@@ -89,7 +100,12 @@ def reorder_track(start, before, id):
 
 # Main method
 if __name__ == "__main__":
-	reorder_track(1, 0, "5OyaappkOODQPVWGZesvUr")
+	print(time.time())
+	#print time.time() + 255
+	#timedelta(date).seconds = timedelta(date).seconds + 255
+	#print date
+
+	#reorder_track(1, 0, "5OyaappkOODQPVWGZesvUr")
 	#play_track("5cbpoIu3YjoOwbBDGUEp3P")
 	#remove_current("5OyaappkOODQPVWGZesvUr")
 

@@ -102,8 +102,8 @@ class Track_Queue:
 
     def get_most_wanted(self):
         queue=self.queue
-        i_max = 0
-        for i in range(len(queue)):
+        i_max = 1
+        for i in range(1, len(queue)):
             if queue[i].get_votes() > queue[i_max].get_votes():
                 i_max = i
 

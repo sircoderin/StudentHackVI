@@ -20,10 +20,9 @@ playlist_id = credentials.spotify['playlist_id']
 song_queue = Track_Queue(playlist_id)
 home_tracks = read_playlist(playlist_id)
 
-play_track(song_queue.get_most_wanted().getId(), song_queue)
+newTime = play_track(song_queue.queue[0].getId(), song_queue)
 
-currently_playing = get_current()
-
+currently_playing = None
 @app.route('/')
 def red_to_index():
 	return redirect('/index')
@@ -35,6 +34,10 @@ def home():
 	global home_tracks
 	global song_queue
 	global currently_playing
+	global newTime
+
+	if newTime<= time.time():
+		newTime = play_track(song_queue.get_most_wanted().getId(), song_queue)
 
 	# remove_current(playlist_id)
 
@@ -51,7 +54,8 @@ def home():
 		if add_track:
 			return redirect('/search')
 
-		if like:
+		if like and like != song_queue.queue[0].getId():
+			#6Bjtr3tPdto5nyuLYf61sN
 			# todo call like method for the track_id (like)
 
 			# for x in song_queue:
@@ -67,7 +71,9 @@ def home():
 			# home_tracks = read_playlist(playlist_id)
 			# song_queue.export_to_spotify()
 		
-		if dislike:
+		print(dislike)
+		print(song_queue.queue[0].getId())
+		if dislike and dislike != song_queue.queue[0].getId():
 			# todo call the dislike method for the track_id (dislike)
 
 			(i,track) = song_queue.pop(dislike)
@@ -83,14 +89,12 @@ def home():
 
 	new_playing = get_current()
 
-	if new_playing != currently_playing and len(song_queue.queue)>0:
+	if new_playing != currently_playing and len(song_queue.queue)>0 and currently_playing != None:
+		song_queue.pop(currently_playing)
 		remove_from_playlist(currently_playing, playlist_id)
-		currently_playing = new_playing
+	currently_playing = new_playing
 
 	home_tracks = read_playlist(playlist_id)
-
-
-
 
 	for track in song_queue.queue:
 		print(track.track_name + "   " + str(track.get_votes()))

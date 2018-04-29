@@ -20,7 +20,9 @@ playlist_id = credentials.spotify['playlist_id']
 song_queue = Track_Queue(playlist_id)
 home_tracks = read_playlist(playlist_id)
 
-# play_track(song_queue.get_most_wanted().getId(), song_queue)
+play_track(song_queue.get_most_wanted().getId(), song_queue)
+
+currently_playing = get_current()
 
 @app.route('/')
 def red_to_index():
@@ -32,6 +34,9 @@ def home():
 
 	global home_tracks
 	global song_queue
+	global currently_playing
+
+	# remove_current(playlist_id)
 
 	if not session:
 		return redirect("/login")
@@ -76,7 +81,16 @@ def home():
 
 		return redirect('/')
 
+	new_playing = get_current()
+
+	if new_playing != currently_playing and len(song_queue.queue)>0:
+		remove_from_playlist(currently_playing, playlist_id)
+		currently_playing = new_playing
+
 	home_tracks = read_playlist(playlist_id)
+
+
+
 
 	for track in song_queue.queue:
 		print(track.track_name + "   " + str(track.get_votes()))

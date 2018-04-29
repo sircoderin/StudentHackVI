@@ -53,13 +53,21 @@ def read_playlist(id):
 
 def play_track(id, song_queue):
 	full_id = "spotify:track:" + id
+	full_context = "spotify:user:" + get_user() + ":playlist:" + song_queue.get_playlist_id()
 	sp = spotipy.Spotify(get_playback_token('write'))
-	sp.start_playback(device_id = None, context_uri = None, uris = [full_id], offset = None)
-	remove_current(song_queue.get_playlist_id())
+	sp.start_playback(device_id = None, context_uri = full_context, uris = None, offset = None)
+	# remove_current(song_queue.get_playlist_id())
 	song_queue.pop(id)
 	#print(sp.devices())
 
 def remove_current(playlist_id):
+
+	track_id = get_current()
+
+	#playlist-modify-public
+	remove_from_playlist(track_id, playlist_id)
+
+def get_current():
 	#user-read-playback-state
 	sp = spotipy.Spotify(auth = get_playback_token('read') )
 	results = sp.current_playback()
@@ -73,8 +81,7 @@ def remove_current(playlist_id):
 	output = []
 	track_id = response['item']['id']
 
-	#playlist-modify-public
-	remove_from_playlist(track_id, playlist_id)
+	return track_id
 
 def reorder_track(start, before, id):
 	sp = spotipy.Spotify(get_token())

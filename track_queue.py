@@ -30,7 +30,7 @@ class Track_Queue:
         #Bubble Sort
         while swap :
             swap = False
-            for i in range(len(queue)-1):
+            for i in range(1, len(queue)-1):
                 if queue[i].get_votes() < queue[i+1].get_votes() :
                     aux = queue[i]
                     queue[i] = queue[i+1]

@@ -4,6 +4,7 @@ import json
 import forms
 import spotipy_utils
 from flask import Flask, flash, redirect, render_template, request, session
+from track_queue import *
 from spotifyClient import *
 
 app = Flask(__name__)
@@ -12,8 +13,12 @@ app.secret_key = 'ghghghtuy567iuyuyhnuybgt87frsw3'
 global_results = []
 home_tracks = []
 
+
 spotify_playlist_id = credentials.spotify['playlist_id']
 playlist_id = credentials.spotify['playlist_id']
+
+song_queue = Track_Queue(playlist_id)
+home_tracks = read_playlist(playlist_id)
 
 @app.route('/')
 def red_to_index():
@@ -24,6 +29,7 @@ def red_to_index():
 def home():
 
 	global home_tracks
+	global song_queue
 
 	if not session:
 		if not session['name']:
@@ -42,18 +48,34 @@ def home():
 		if like:
 			# todo call like method for the track_id (like)
 
+			# for x in song_queue:
+			# 	print(x.get_votes)
+
+			track = song_queue.pop(like)
+			track.up_vote()
+			song_queue.push(track)
+
+
 			print("like")
 			print(like)
-
+			home_tracks = read_playlist(playlist_id)
+			# song_queue.export_to_spotify()
 		
 		if dislike:
 			# todo call the dislike method for the track_id (dislike)
+
+			track = song_queue.pop(dislike)
+			track.down_vote()
+			song_queue.push(track)
+
 			print("dislike")
 			print(dislike)
+			home_tracks = read_playlist(playlist_id)
+			# song_queue.export_to_spotify()
 
 		return redirect('/')
 
-	home_tracks = read_playlist(playlist_id)
+	# home_tracks = read_playlist(playlist_id)
 
 	return render_template("index.html", name=session['name'], tracks=home_tracks)
 
@@ -90,11 +112,21 @@ def search():
 
 @app.route('/results',  methods=['GET', 'POST'])
 def results():
+	global home_tracks
+	global song_queue
+
 	if request.method == 'POST':
 		# print(request.form.get('add'))
 		track_id = request.form.get('add')
+
 		if track_id:
 			spotipy_utils.add_to_playlist(track_id, spotify_playlist_id)
+			home_tracks = read_playlist(playlist_id)
+			for track in home_tracks:
+				if track.track_id == track_id:
+					song_queue.push(track)
+					print(type(track))
+					print('+++++++++++++++++++++++++++++++++++++++++++++')
 
 		return redirect('/index')
 

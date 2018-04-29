@@ -70,7 +70,7 @@ class Track_Queue:
                 pop_track = track
                 self.queue.remove(track)
                 break
-            print track.getId()
+            # print track.getId()
         #update spotify track
         self.export_to_spotify()
         return pop_track

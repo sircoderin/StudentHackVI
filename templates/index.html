@@ -28,11 +28,12 @@
 	  	{% endfor %}
 	  </table>
 
-	  <form method=post>
-	  	<button type="submit" name="search" value="123">Add new track</button>
-	  </form>
-
   {% else %}
-  	<h1>Error!</h1>
+  	<h4>Add a new track to start!</h4>
   {% endif %}
+
+  <form method=post>
+		<button type="submit" name="search" value="123">Add new track</button>
+	</form>
+
 {% endblock %}

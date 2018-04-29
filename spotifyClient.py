@@ -11,7 +11,7 @@ from track import *
 from spotipy_utils import *
 
 def search_track(param):
-	sp = spotipy.Spotify(spotipy_utils.get_token())
+	sp = spotipy.Spotify(get_token())
 	results =  sp.search(param, limit=10, offset=0, type='track', market=None)
 
 	json_data = json.dumps(results, indent=2)

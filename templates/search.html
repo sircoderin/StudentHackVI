@@ -2,10 +2,15 @@
 {% block title %}Search{% endblock %}
 {% block body %}
 
-	<form method="POST">
-		<dl>
-			{{ form.search }}
-		</dl>
-		<input type="submit" value="Search">
-	</form>
+	<p></p>
+	<p></p>
+	<div class="container">
+		<form method="POST">
+			<dl>
+				{{ form.search }}
+			</dl>
+			<input type="submit" class="btn btn-primary btn-block" value="Search">
+		</form>
+	</div>
+
 {% endblock %}

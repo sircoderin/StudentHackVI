@@ -2,38 +2,52 @@
 {% block title %}Home{% endblock %}
 {% block body %}
 
-	<h5>{{ name }}</h5>
+	<!-- <h5>{{ name }}</h5> -->
 
   {% if tracks %}
-  
-		<table>	  	
-	  	{% for i in tracks %}
-	  		<tr>
-	  			<td><img src="{{ i.image_url }}"></td>
-	  			<!-- <td>{{ i.track_id }}</td> -->
-	  			<td>{{ i.track_name }}</td>
-	  			<td>{{ i.artist_name }}</td>
-	  			<td>{{ i.album_name }}</td>
-		  		<td>	
-		  			<form method=post>
-							<button type=submit name="dislike" value="{{ i.track_id }}">Dislike</button> 
-						</form>
-					</td>
-					<td>	
-			  		<form method=post>
-							<button type=submit name="like" value="{{ i.track_id }}">Like</button> 
-						</form>
-					</td>
-	  		</tr>
-	  	{% endfor %}
-	  </table>
-
+  	<p></p>
+  	<div class="container">
+	  	<table class="table table-dark">
+			  <thead>
+			    <tr>
+			    	<th scope="col">Votes</th>
+			      <th scope="col"></th>
+			      <th scope="col">Song Name</th>
+			      <th scope="col">Artist</th>
+			      <th scope="col">Album Name</th>
+			      <th scope="col"></th>
+			      <th scope="col"></th>
+			    </tr>
+			  </thead>
+	  		{% for i in tracks %}
+				  <tbody>
+				    <tr>
+				    	<!-- <th scope="row">{{ i.vote_count }}</th> -->
+				      <th><img src="{{ i.image_url }}"></th>
+				      <td>{{ i.track_name }}</td>
+				      <td>{{ i.artist_name }}</td>
+				      <td>{{ i.album_name }}</td>
+				      <td>	
+				  			<form method=post>
+									<button type="submit" class="btn btn-danger" name="dislike" value="{{ i.track_id }}">Dislike</button> 
+								</form>
+							</td>
+							<td>	
+					  		<form method=post>
+									<button type="submit" class="btn btn-success" name="like" value="{{ i.track_id }}">Like</button>  
+								</form>
+							</td>
+				    </tr>
+				  </tbody>
+				{% endfor %}
+			</table>
+		</div>
   {% else %}
   	<h4>Add a new track to start!</h4>
   {% endif %}
 
   <form method=post>
-		<button type="submit" name="search" value="123">Add new track</button>
+		<button type="submit" class="btn btn-primary btn-block" name="search" value="123">Add new track</button>
 	</form>
 
 {% endblock %}

@@ -3,22 +3,35 @@
 {% block body %}
   {% if results %}
   
-		<table>	  	
-	  	{% for i in results %}
-	  		<tr>
-	  			<td><img src="{{ i.image_url }}"></td>
-	  			<!-- <td>{{ i.track_id }}</td> -->
-	  			<td>{{ i.track_name }}</td>
-	  			<td>{{ i.artist_name }}</td>
-	  			<td>{{ i.album_name }}</td>
-		  		<td>	
-		  			<form method=post>
-						<button type=submit name="add" value="{{ i.track_id }}">Add</button> 
-						</form>
-					</td>
-	  		</tr>
-	  	{% endfor %}
-	  </table>
+	  <p></p>
+  	<div class="container">
+	  	<table class="table table-dark">
+			  <thead>
+			    <tr>
+			      <th scope="col"></th>
+			      <th scope="col">Song Name</th>
+			      <th scope="col">Artist</th>
+			      <th scope="col">Album Name</th>
+			      <th scope="col"></th>
+			    </tr>
+			  </thead>
+	  		{% for i in results %}
+				  <tbody>
+				    <tr>
+				      <th scope="row"><img src="{{ i.image_url }}"></th>
+				      <td>{{ i.track_name }}</td>
+				      <td>{{ i.artist_name }}</td>
+				      <td>{{ i.album_name }}</td>
+							<td>	
+				  			<form method=post>
+								<button type=submit class="btn btn-primary" name="add" value="{{ i.track_id }}">Add</button> 
+								</form>
+							</td>
+				    </tr>
+				  </tbody>
+				{% endfor %}
+			</table>
+		</div>
 
   {% else %}
   	<h1>No results!</h1>

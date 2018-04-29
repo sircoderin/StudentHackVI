@@ -54,11 +54,12 @@ def play_track(id):
 	id = "spotify:track:" + id
 	sp = spotipy.Spotify(get_token())
 	sp.start_playback(device_id = None, context_uri = None, uris = [id], offset = None)
+	remove_current("5cbpoIu3YjoOwbBDGUEp3P")
 	#print(sp.devices())
 
 def remove_current(id):
 	#user-read-playback-state
-	sp = spotipy.Spotify(auth = "BQAbQdTvNbnH9CRcw2W2S34hoP9N5vUxj0CMm_sQHSBMK5H7HvCwUBv7-_H1B2LGT54CecWFJ9gtB3SitnHAStWYIUTKSE3ptJNEvKx7LldG--egOl3ZWjS8LhMwYzdGoAGpOlka3Vl5C42lOPMgYsSt5R_GHuMLYHTJHQsMsUpg6A")
+	sp = spotipy.Spotify(auth = "BQASHopJhsbUqcghoWNM4FQ7IdSOshP1fQRglvhDtoZ2CVBvQFtUYyED8K2052nHRO_8K-DBVckkHnV1OcdsNuhg2jmrjQ9rAMZaQKbYUpop6V0roktIrR0MAS27wJQqksCZKEl9wjbmHo7LbdhjddOIbCQbWQizAmb7m_lt4Q7eZenUb31EKEDs8LB428FTnuRxaQ	-_H1B2LGT54CecWFJ9gtB3SitnHAStWYIUTKSE3ptJNEvKx7LldG--egOl3ZWjS8LhMwYzdGoAGpOlka3Vl5C42lOPMgYsSt5R_GHuMLYHTJHQsMsUpg6A")
 	results = sp.current_playback()
 	json_data = json.dumps(results, indent=2)
 
@@ -79,7 +80,8 @@ def reorder_track(start, before, id):
 
 # Main method
 if __name__ == "__main__":
-	reorder_track(1, 0, "5OyaappkOODQPVWGZesvUr")
+	play_track("6od5hFv9IT5JHc7NEF9HRv")
+
 	#play_track("5cbpoIu3YjoOwbBDGUEp3P")
 	#remove_current("5OyaappkOODQPVWGZesvUr")
 

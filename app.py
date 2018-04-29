@@ -32,9 +32,8 @@ def home():
 	global song_queue
 
 	if not session:
-		if not session['name']:
-			return redirect("/login")
-
+		return redirect("/login")
+		
 	if request.method == 'POST':
 		
 		like = request.form.get('like')
@@ -51,9 +50,9 @@ def home():
 			# for x in song_queue:
 			# 	print(x.get_votes)
 
-			track = song_queue.pop(like)
+			(i,track) = song_queue.pop(like)
 			track.up_vote()
-			song_queue.push(track)
+			song_queue.push(track, i)
 
 
 			print("like")
@@ -64,9 +63,9 @@ def home():
 		if dislike:
 			# todo call the dislike method for the track_id (dislike)
 
-			track = song_queue.pop(dislike)
+			(i,track) = song_queue.pop(dislike)
 			track.down_vote()
-			song_queue.push(track)
+			song_queue.push(track, i)
 
 			print("dislike")
 			print(dislike)
@@ -84,7 +83,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	
-	if session['name']:
+	if session and session['name']:
 		return redirect('/index')
 
 	name_form = forms.NameForm(request.form)
@@ -124,7 +123,7 @@ def results():
 			home_tracks = read_playlist(playlist_id)
 			for track in home_tracks:
 				if track.track_id == track_id:
-					song_queue.push(track)
+					song_queue.push(track, -1)
 					print(type(track))
 					print('+++++++++++++++++++++++++++++++++++++++++++++')
 

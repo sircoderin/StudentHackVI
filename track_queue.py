@@ -58,13 +58,17 @@ class Track_Queue:
     #add a track object
     def push(self, track, old_start):
         self.queue.append(track)
+        queue=self.queue
         self.sort()
         new_index = 0
-        for i in range (len(queue))
-            if queue[i].getId()==track_id:
+        for i in range (len(queue)):
+            if queue[i].getId()==track.track_id:
                 new_index = i
-                break;
-        reorder_track(old_start, new_index, self.playlist_id)
+                break
+
+        if old_start != -1:
+            reorder_track(old_start, new_index, self.playlist_id)
+            
         #update spotify track
         #self.export_to_spotify()
 
@@ -74,10 +78,10 @@ class Track_Queue:
         pop_track = None
         cuurent_ind = 0
         queue = self.queue
-        for i in range (len(queue))
+        for i in range (len(queue)):
             if queue[i].getId()==track_id:
-                pop_track = track
-                self.queue.remove(track)   
+                pop_track = queue[i]
+                self.queue.remove(queue[i])   
                 return (i, pop_track)
         return (0, None)
             # print track.getId()

@@ -5,8 +5,9 @@ import credentials
 import requests
 import json
 from ast import literal_eval
-import track , login , spotipy_utils
-
+import login , spotipy_utils
+from login import *
+from track import *
 
 def search_track(param):
 	sp = spotipy.Spotify(spotipy_utils.get_token())

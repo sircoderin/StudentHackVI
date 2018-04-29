@@ -34,7 +34,7 @@ def get_all_from_playlist(playlist_id):
 	playlist = get_playlist(playlist_id)
 	#get items
 	items = playlist['tracks']['items']
-	print items[1]['track']['id']
+	# print(items[1]['track']['id'])
 	id_list = []
 	for item in items:
 		id_list += [item['track']['id']]

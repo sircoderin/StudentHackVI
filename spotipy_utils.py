@@ -29,6 +29,7 @@ def add_to_playlist(track,playlist_id):
 def remove_from_playlist(track,playlist_id):
 	sp.user_playlist_remove_all_occurrences_of_tracks(get_user(),playlist_id,[track],snapshot_id=None)
 
+#return all IDs of the tracks from the playlist with given ID
 def get_all_from_playlist(playlist_id):
 	playlist = get_playlist(playlist_id)
 	#get items

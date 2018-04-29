@@ -15,6 +15,10 @@ class Track(object):
         self.image_url = image_url
         self.vote_count = 0
 
+
+    def getId(self):
+        return self.track_id
+
     def up_vote(self):
         self.vote_count+=1
 
@@ -23,3 +27,4 @@ class Track(object):
 
     def get_votes(self):
         return self.vote_count
+

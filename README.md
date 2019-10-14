@@ -31,5 +31,3 @@ To run a flask app, all you have to do is:
 
 Also if you turn on debugging (`export FLASK_DEBUG=1`) before running, the server will reload itself on code changes.
 Also when shit goes down the fan, Flask will even show you a console in the browser to help you debug stuff.
-
-> Calin

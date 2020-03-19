@@ -1,5 +1,4 @@
 #!env/bin/python3
-
 import json
 import forms
 import spotipy_utils
